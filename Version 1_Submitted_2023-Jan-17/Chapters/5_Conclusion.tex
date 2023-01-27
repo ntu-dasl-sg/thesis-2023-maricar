@@ -1,0 +1,308 @@
+\setcounter{chapter}{4}
+\chapter[Conclusions]{Conclusions}\label{chap-conc}
+
+The past few decades have seen significant progress and transformation in the field of disaster risk science, with the development of risk modelling frameworks to quantify the impact of natural hazards. These frameworks have been providing core information to risk reduction managers so that they can base their decisions towards a path of resilience. However, current frameworks still under-emphasise key elements important for decision-making, which this research aims to address. Specifically, this research focuses on the need for: (1) considering spatial and uncertainty characteristics in hazard modelling, (2) incorporating time-dependent processes that affect vulnerability, and (3) highlighting the successes and benefits of risk reduction. The goal of this thesis is to develop frameworks that shift the current state-of-the-art analytics in risk and hazard quantification towards more effective tools to support decision-making in reducing risk in dynamic regions. The following research questions from Chapter \ref{chap-intro} (Introduction) are answered in the next sections.
+    \begin{enumerate}
+    \setlength\itemsep{-0.45em}
+    \item How can we make the most of limited and uncertain spatial data in inversion and forward estimation with process-based hazard models? 
+    \item How do we account for time-dependent physical vulnerability in regional scale seismic risk analysis?
+    \item How do we highlight the success of risk reduction programs implemented in the past and the benefits they will provide in the future using risk analytics?
+    \end{enumerate}
+
+I then discuss the limitations this research and provide recommendations for future research and practice. Finally, I share personal reflections on the implications of the contributions made on the field of regional scale analytics and support of disaster risk reduction.
+%This thesis has shown ..
+% To develop the methodological contributions, Chapters 2, 3, and 4 each presented a state-of-art framework in the disaster analytics field, and explored improvements so that they may be more useful for risk managers. Chapter 2 improves on the inversion and forward modelling of tephra \textit{hazard} from volcanic eruptions with the \textit{Tephra2 process-based model}. Chapter 3 adds a time-dependent module to represent time-varying \textit{vulnerability} in buildings in the \textit{Performance-Based Earthquake Engineering Framework}. And finally, Chapter 4 presents a novel application of \textit{Counterfactual Analysis}, which in the context of disaster risk analysis, is a framework only utilised thus far to generate worse impact scenarios of potential hazard events. In this thesis, I, instead, make use of Counterfactual analysis to highlight successes in risk reduction by modifying the \textit{vulnerability or exposure} components influenced by interventions.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contributions and relevance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hazard modelling using limited and uncertain spatial data}
+
+\begin{center} \begin{blockquote}
+How can we make the most of limited and uncertain spatial data in inversion and forward estimation with process-based hazard models? 
+\end{blockquote} \end{center}
+
+Process-based models for understanding hazard processes often rely on limited, uncertain, and spatial data. In Chapter \ref{chap-tephra}, I show the importance of effectively utilising uncertainty and spatial information in data when reconstructing past volcanic eruption characteristics and associated tephra fallout from different sets of field observations. The methodological contributions of Chapter \ref{chap-tephra} include: (1) selecting appropriate cost functions based on their theoretical properties and assumptions on the residual distribution, (2) addressing differential uncertainty when combining multiple data sets, and (3) utilising both forward model and data to estimate the spatial distribution of output. These concepts are illustrated through the study of the tephra fallout of the 2014 eruption of Kelud volcano in Java, Indonesia, and the Tephra2 model. The research can benefit other scientists who aim to their estimates when conducting calibration and forward estimation with spatially-distributed data. 
+
+The research provided multiple contributions for the selection of appropriate cost functions in inversion. Chapter \ref{chap-tephra} is the first study to place attention and investigate the impact of the choice of cost function in tephra fall inversion. The cost function is a key modelling component that defines how the output deviates from observations, and yet little attention is usually given to the choice of cost function in the inversion of source parameters. The analyses highlighted that the selection of cost function needs to be a conscious choice since each has associated assumptions on how the model would fit the data, and the influence on the values of calibrated parameters is significant. Proper cost function selection is an important addition to the suite of techniques in hazard model calibration that make the most of limited and uncertain data (e.g. uncertainty quantification techniques, resampling methods, etc.). Given that the main requirements in proper cost function selection consist of an understanding of the cost functions' theoretical properties and their assumptions, the approach is relatively computationally-cheap and easier to adopt for other applications. The table presented in Table \ref{tab:costf}, for instance, can be used as a guide by hazard modellers to narrow down potential cost functions for their calibration task, including applications beyond tephra fall hazards.
+
+Chapter \ref{chap-tephra}'s main methodological contribution for cost function selection is the two-step approach to evaluate the choice of cost function for inversion/calibration problems using process-based models. For the first step, I demonstrated how to consider the cost functions' theoretical properties most relevant to the data (e.g. sensitivity to outliers, suitability for data spanning orders of magnitude, treatment of under/overestimation) to narrow than suitable cost functions. In the second step, I demonstrated that choosing a cost function implies making an assumption of the type of distribution of the residuals (where residuals are the difference between the modeled output and the observation), and thus should be a consideration for finding an appropriate cost function. I proposed and implemented multiple goodness-of-fit tests (statistical and graphical) to check the suitability of the choice of cost function with the distributional assumption on the residuals. The study added three more alternative cost functions to the developers' version of the Tephra2 code as of writing: mean absolute error (MAE), mean absolute percentage error (MAPE), and mean square log error (MSLE). Based on the cost function properties and distribution of residuals, the research identified MSLE as the cost function that performs best and has characteristics well-suited for the case study. An important takeaway from these methodological contribution is that no metric is inherently better for all applications. Choosing a cost function implies making an assumption on the type of distribution of the residuals. Hence, in its correct application based on the assumed residual distribution, a cost function is optimal.
+
+Another fundamental contribution of this work is how the weighting approach in both inversion and forward model settings allows the use of all data, even if some are highly uncertain, while accounting for this uncertainty. With the increasing availability of high volume, low reliability information (e.g. crowd-sourced data from social media) in disaster risk and hazard modelling, these can nonetheless be used to improve the modelling. In Chapter \ref{chap-tephra}, the Tephra2 inversion algorithm has been extended to account for varying uncertainty across different data points, rather than treating each data point equally in the optimisation. The study proposed the use of uncertainty-based weights to the observations in the cost function. The approach made it possible to consider the varying levels of data uncertainty brought by different field campaigns conducted at significantly different times after the eruption. 
+
+In forward estimation, I present another approach to make the most of limited and uncertain spatial data. I developed a model-data fusion methodology that combines both forward model estimates and the data to generate improved estimates of the spatial distribution of tephra load across an area of interest. The approach utilises a spatial statistics approach called kriging to account for the spatial arrangement of the data in such a way that points nearby the site of interest are given more weight than those farther away. The study demonstrated that the importance placed in the model and data can be balanced by the choice of the spatial model and its parameters. 
+
+The strength of the model-data fusion approach is for applications wherein the main goal is to obtain spatial predictions that best agree with observations while accounting for their spatial distribution. While the calibration ensures the best fit to the model in terms of the chosen cost function, the modelled outputs may diverge from observations in a spatially-structured way due to physics-based approximations, unaccounted spatial processes or uncertainties inherent in the model. Often, such model-data disagreements do not pose issues for specific hazard modelling goals such as estimating the total volume/mass of tephra produced by an eruption. However, capturing the spatial complexity of observations is an important consideration for risk assessment activities such as building-level damage assessments (e.g. \citet{williams2020}'s remote assessment of tephra fall damage from the 2014 Kelud eruption). The model-data fusion approach allow building-level hazard estimates to reflect not only the output of the process-based model at the building site, but also the values and spatial distribution of field data recorded at or nearby the building. It should be noted that since calibration with process-based models have broad applications within and outside hazard modelling, potential applications of the model-data fusion approach go beyond tephra hazard applications.
+
+%  % By Benoit: "I do like the approach, it seems that it could be directedly applied to some geodetic inversion… where some measurement are influence by local topography and localised underground structure… though in general we don’t have the luxury of large amount of data from the ground… and deformation from remote sensing got some limitation under the tropics… "
+
+
+% While the inversion ensures the best fit to the model in terms of the selected cost function, the modelled outputs may diverge from observations in a spatially-structured way due to model approximations, unaccounted spatial processes or uncertainties inherent in the model. Such model-data disagreements do not often cause issues for specific modelling applications such as estimating the total volume of tephra from an eruption.
+
+% The model-data fusion approach can benefit remote assessments of tephra fall building damage, which typically require a map of the best estimate of tephra distribution (e.g. \citet{williams2020}'s damage assessment for the 2014 Kelud eruption). 
+
+% Combining the estimates of tephra load from process-based models such as Tephra2 with observed data can 
+
+% Using the approach, building-level estimates of tephra load not only reflects the output of the process-based model at the building site, but also the values and spatial distribution of field data recorded at or nearby the building.
+
+
+% This type of fusion approach has direct benefits for hazards and risk assessment. For instance, the fusion approach can benefit research such as \citet{williams2020}'s work on remote assessment of tephra fall building damage in terms of improving the estimates of tephra load. Remote assessment of tephra fall building damage is an important complementary to traditional field-based surveying of impacts from volcanic eruptions. It requires a map of the best estimate of tephra distribution, and the Tephra2 inversion model has been a valuable tool that can provide such a map. A direct application of the proposed fusion approach is taking \citet{williams2020}'s inversion model and combining it with the observed data to produce better estimates of tephra load.  By doing so, building-level estimates of tephra load not only reflects the output of the process-based model, but also the values and spatial distribution of field data recorded at or nearby the building. Developing the model-data fusion approach was motivated by this potential application.
+
+I also developed an extension of the model-data fusion methodology that accounts not only the spatial arrangement in the data, but also the different levels of uncertainty associated with different datasets collected from the field. The study demonstrated that accounting for varying data uncertainty improves the performance of the model-data fusion based on out-of-sample errors from a cross validation. The strength of both model-data fusion methods is that they are capable of producing not only a map of tephra distribution, but also a map of uncertainties associated to the modelled tephra load in a forward estimation. The approach was able to calculate uncertainties because kriging was used in the development of the model-data fusion approach. 
+
+The applications of the work in Chapter \ref{chap-tephra} go beyond tephra fall modelling. Inversion/calibration and forward prediction workflows are typical in understanding many processes in other natural hazards, which include geophysical (e.g. tsunamis, earthquakes, landslides), shallow (e.g. ground subsidence), atmospheric (e.g. storms), hydrological (e.g., floods, droughts), and biophysical processes (e.g. wildfires). For instance, in the field of earthquake hazard modelling, the methods can be adopted for better calibration and forward modelling of ground motion prediction equations (GMPEs), which typically rely on spatial and uncertain observations of ground shaking. In fact, the inversion/calibration and forward prediction workflow visualised in Figure \ref{fig:schem-typ} is typical outside the field of hazard modelling as well. The guidance in Chapter \ref{chap-tephra} could be relevant to those utilising spatial data to calibrate a model.
+
+ % By Benoit: "I do like the approach, it seems that it could be directedly applied to some geodetic inversion… where some measurement are influence by local topography and localised underground structure… though in general we don’t have the luxury of large amount of data from the ground… and deformation from remote sensing got some limitation under the tropics… "
+
+% Relate to spatial data amidst urban growth and risk analysis?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Modelling time-dependent vulnerability}
+
+\begin{center} \begin{blockquote}
+How do we account for time-dependent physical vulnerability in regional scale seismic risk analysis?
+\end{blockquote} \end{center}
+
+Increasing regional-scale resilience has gathered traction in recent years in local, national, and global entities, which highlights the importance of risk-informed planning for disaster risk reduction. Simultaneously, however, current methods fall short in characterising the temporal dynamics of urban environments in terms of rapidly changing physical vulnerability. These dynamics may stem from deterioration processes or construction practice that can increase vulnerability, or hazard mitigation activities that can reduce vulnerability. For regional-scale risk analysis, accounting for these dynamics is critical not only to understand the hazard-related risk over time, but also to study the influence of policies on future risk.
+
+In Chapter \ref{chap-time}, I developed a regional scale seismic risk analysis that accounts for time-dependent physical vulnerability. To do so, I extended the Performance-Based Earthquake Engineering (PBEE) methodology \citep{krawinkler2004performance} framework (a fundamental engineering approach to assess impact from earthquake damage) to account for time-dependent vulnerability driven by multiple regional scale policies and deterioration. To model state change processes that increase or decrease physical vulnerability from seismic damage, I developed a time-homogeneous Markov chain simulation approach. The Markov chain approach is integrated with the risk analysis framework to model future regional-scale seismic risk driven by time-dependent vulnerability.
+
+Current earthquake risk analysis methods like PBEE are designed for the application of single buildings or infrastructure. In Chapter \ref{chap-time}, the case studies span from building-level to regional-scale applications. Specifically, I demonstrate the influence of time-dependent vulnerability for a single deteriorating building, and for a community with buildings experiencing deterioration, retrofitting, and building replacements over time. The impact quantification focuses on physical impact metrics such as expected building collapse. While it is expected that retrofit policies and building replacements lead to decreased seismic risk, and deterioration leads to increased seismic risk over time, the study demonstrated how risk evolves with time linked to various seismic reduction policies.
+
+The study introduced a proof of concept and a demonstration of a tool for decision-makers to investigate the consequences of various seismic mitigation decisions (that influence physical vulnerability) to future seismic risk. The study demonstrated how the framework allows comparison between single policies or combinations of policies using a hypothetical building portfolio. The framework serves to support global efforts that aim to target risk levels acceptable for society (e.g. the development and setting of specific targets for disaster risk reduction in the Sendai Framework \citep{unisdr_2015}). Ultimately, the work underlines the significance of time-dependent risk models to understand hazard-related risk of urban environments over the lifespan of its infrastructures. A better understanding of feedback loops between dynamic vulnerability and disaster impacts can support proactive policy decisions in risk reduction. 
+
+%Note that the time-dependent framework also includes urban growth as a state change
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{A framework to incentivise, celebrate, and learn from effective risk reduction}
+
+\begin{center} \begin{blockquote}
+How do we highlight the success of risk reduction programs implemented in the past and the benefits they will provide in the future using risk analytics?
+\end{blockquote} \end{center}
+% Reframing for decision-making usability
+
+The field of disaster risk management faces the challenge of its failures being catastrophic while its successes go unnoticed. This makes it difficult to identify, celebrate, and spread positive lessons learned that could be emulated elsewhere, or to incentivise proactive decision-making on the basis of recognised successes. I have previously identified four types of situations where successful disaster risk management interventions are made invisible in a policy report \citep{lallemant_rabonza_gar_2022}: (i) success made invisible in the midst of broader disaster, (ii) success made invisible by nature of the success, (iii) success made invisible due to yet unrealised benefits, (iv) success made invisible due to randomness of specific outcome. Chapter \ref{chap-counterfactual} presented analytics of how we can shed light on (i) and (iii), but the framework is applicable for all four types of invisibilities.
+
+I propose and demonstrate the use of probabilistic downward counterfactual analysis to shed light on these otherwise invisible successes. Downward counterfactual analysis rely on the understanding of how a realised event could have been worse, as a way to highlight the benefits of an intervention. I further use the risk analysis framework to ascribe estimated probabilities to the simulated counterfactuals. The estimated probabilities constrain the counterfactual exploration to realistic scenarios. By using an appropriate counterfactual scenario as a baseline against which to compare realised outcomes, the framework makes clear that the impact of hazards would be much worse without important investments in risk reduction.
+
+Probabilistic counterfactual analysis addresses the challenge of incentivising effective decisions, and highlighting their realised or future benefits when evaluating disaster risk measures. By accounting for alternative scenarios with their associated probabilities and explicitly identifying how a mitigation measure decreases the impact on society, it counters the natural cognitive perceptions which hinder the way people process risk and hence measure and evaluate mitigation successes. Since the framework can also be applied to measures for which success has not been realised to consider all possible future scenarios, it can quantify the long-term benefits of disaster risk reduction decisions. The study demonstrated a new domain of application of counterfactual risk that goes beyond pointing out worse potential outcomes for the purpose of insurance, preparedness, future mitigation and learnings from failures in risk management.
+
+I applied probabilistic downward counterfactual risk analysis to (1) recognise lives saved by an earthquake-resistant building intervention in the aftermath of a specific event (the 2015 Gorkha earthquake in Nepal) and (2) predict the annual lives that could be saved in the future if the same intervention were implemented using a probabilistic hazard model. Both examples illustrate that risk reduction efforts can lead to positive outcomes, even in the face of a tragic disaster or in anticipation of one. The analysis revealed that a significant number of deaths were prevented during the Gorkha earthquake due to the government-led retrofitting of schools beginning in 1997. Additionally, many more lives could be saved if the retrofitting program were extended to all schools in the Kathmandu Valley.
+
+The innumerable successful DRM interventions implemented in communities worldwide represent a critical data-set to learn from, adapt, share and implement such activities where they are further needed. This is only possible if these successes are identified, analysed and celebrated. I propose the use of probabilistic downward counterfactual analysis to highlight and quantify the benefits of DRM interventions that otherwise remain invisible. This can serve to lift up the iterative, long-term, humble, dedicated and politically courageous actions required for long-term resilience building. 
+
+%%% The work in Chapter 3 is aligned with the goal of Chapter 4. 
+
+%%%%%%%%%%%%%%%%%
+\section{General limitations and future work}
+
+\subsection{Framework flexibility}
+
+    The frameworks proposed in the dissertation are intentionally flexible. Chapter \ref{chap-tephra} demonstrates a framework that can be used for both applications where the inversion and forward prediction workflows are performed sequentially and applications where they are performed separately. While the test case focuses on the Tephra2 model, the methods are applicable to other process-based models that reconstruct the tephra fallout process. Beyond tephra fallout applications, the guidance are useful for other types of hazard modelling (e.g. calibration of GMPEs) and anyone conducting inversion or calibration modeling with spatially-distributed data beyond hazard analysis. 
+    % Because of the broad applicability of process-based models, the results in Chapter \ref{chap-tephra} do not make any claim or conclusions about the characteristics and true source parameters of the 2014 Kelud eruption and the accuracy of the Tephra2 model.
+
+    The time-dependent urban risk framework presented in Chapter \ref{chap-time} is intentionally flexible, wherein the three fundamental components - hazard, vulnerability, and exposure - are considered as plug and play pieces. The case studies in Chapter \ref{chap-time} are limited and focused to modelling the vulnerability component's time-dependence, but the hazard and exposure inputs can be changed to be dynamic as well. Similarly, the specific hazard models and fragility models can be interchanged. 
+    
+    There is future work in the use of dynamic risk frameworks to further study the feedback loops between changing exposure and hazard. This is most relevant for flooding applications, since urban growth is a driver of increasing hazard due to the increase in impervious surface. For such an analysis, the exposure model can be interchanged with urban growth models that can account for historical land-use, transportation networks and slope (e.g. SLEUTH by \citet{clarke_self-modifying_1997}), or models that consider socio-economic characteristics (e.g. Java Spatial Model by \citet{zondag_use_2009, noauthor_river_2016, sjarief_integration_2003}). 
+
+    % Processes that drive changing vulnerability also differ for every region and application. The case studies in Chapter \ref{chap-time} demonstrated that multiple drivers of changing vulnerability can be accounted for in the framework, but for some cities, some of the drivers included in the study may not be the most relevant. 
+    
+    Finally, the counterfactual risk analysis framework for celebrating benefits of risk reduction is also developed to be flexible (Chapter \ref{chap-counterfactual}). The key step in the framework is identifying the risk component that the intervention influences. For instance, seismic retrofitting influence physical vulnerability, while evacuation efforts influence exposure in a risk analysis. In Section \ref{subsec-broadapps}, I provide multiple examples of interventions with the associated risk components that they aim to influence. The list can be used to identify future potential applications of counterfactual risk analysis framework for highlighting successes in interventions.
+    % The concept adopts the three-component risk framework, in which the hazard, vulnerability, and exposure are all flexible inputs. 
+
+    The counterfactual risk analysis can be extended to highlight the expected progress and benefits of policy implementation for \textit{each succeeding year in the future}. The second case study in Chapter \ref{chap-counterfactual} is limited to the assessment of the number of lives saved -- (1) the present time where only some schools are retrofitted, and (2) a certain time in the future where all vulnerable schools are retrofitted. By using a time-dependent vulnerability model (such as introduced in Chapter \ref{chap-time}) and appropriate transition rates of retrofitting every year, the future benefits of the retrofitting intervention can be estimated at incremental points in time.
+
+\subsection{Methodological lens}
+
+    The results of the dissertation aim to provide methodological contributions that address the research questions in Chapter \ref{chap-intro}, rather than demonstrate a more accurate re-analysis of the impacts of the hazard events in the case studies (i.e. the 2014 Kelud eruption in Chapter \ref{chap-tephra} and the 2015 Nepal earthquake in Chapter \ref{chap-counterfactual}). Chapter \ref{chap-tephra}'s results do not make any claim or conclusions about the characteristics and true source parameters of the 2014 Kelud eruption. Similarly, Chapter \ref{chap-counterfactual} does not aim to assess the accuracy of the hazard model used for the 2015 Nepal earthquake.
+
+    In Chapter \ref{chap-counterfactual}, the framework only provide \textit{estimates} of fatalities, which are affected by the choice of the hazard model and the fatality model at an extent that was not extensively explored. As in any model, these estimates serve as useful indicators of risk, but are not necessarily accurate predictions. For such methods, transparency on the underlying methods is key. In Chapter \ref{chap-counterfactual}, I present the fatality results with their wide distributions to indicate their uncertainty (Figure \ref{fig:results_case1}). 
+    % The fatality calculations made use of the best hazard model for the 2015 Nepal earthquake available at the time of writing, i.e. \citep{wei20182015}'s model. To provide the reader a broad sense of the impact of using another hazard model, I provide fatality calculations using another hazard model (USGS ShakeMap) in Appendix \ref{app-pls-1}.
+
+\subsection{Metrics of loss and vulnerability}
+
+    Considering that Chapter \ref{chap-time}'s scope only considers \textit{physical} vulnerability, the case studies utilised normalised building collapse risk as the metric for seismic risk. The results can be extended to calculate financial losses by using fragility curves for partial damage states and the corresponding loss. Beyond asset-based losses, there is much potential in extending time-dependent risk framework to account for non-asset based losses. Instead of using fragility curves for building damage the vulnerability component, relationships that relate hazard intensity with the non-asset based loss metric can be utilised. 
+    % This is becoming more important as future outcomes of disaster mitigation plans are typically difficult to envision, with biased policies widening already existent inequities that increases the vulnerability of marginalised communities \citep{peek2020framework}. It is then crucial to explore time-dependent risk frameworks for applications beyond physical vulnerability and asset-based impacts.
+
+    Chapter \ref{chap-counterfactual} focused on loss of life reduction. Other metrics of successful risk management interventions include reducing injuries, number of affected or displaced people, building damage, business interruption, livelihood losses, damage to cultural heritage, psychological distress and much more. Counterfactual analysis can be applied equally for these alternative metrics. Furthermore, it is becoming increasingly recognised that the benefits of risk management activities can go beyond impact reduction and loss-avoidance, and in fact should be designed as such \citep{lallemant2021nature}. For instance, the reduction of background risk encourages positive risk taking (e.g., investment in productive assets, entrepreneurial activities), enables long term financial planning (e.g., to build up savings), and potentially increases the value of protected lands \citep{Tanner2015}. Investments in multi-purpose disaster risk reduction measures can also yield benefits that are unrelated to the reduction of background risks. These co-benefits can be economic (e.g., increased agriculture productivity with improved irrigation for drought management), political (e.g., improved governance through strengthening the disaster risk management capacity of civil society), social (e.g. increased parks and green leisure areas), and/or environmental (e.g., carbon sequestration, sediment and nutrient retention from protection or afforestation of wetlands). The nature and level of these co-benefits depend on the design of the disaster risk reduction measure \citep{Tanner2015}.
+
+\subsection{Hazards accounted for in the models} %ok
+
+    It is worth noting that the models presented in Chapters \ref{chap-time} and \ref{chap-counterfactual} only consider risk in terms of ground shaking. Secondary seismic hazards (sometimes more destructive) such as liquefaction, landslides, and tsunamis are not considered. Topography and basin effects are not included as shaking amplification factors. All of these considerations are linked to geography, which urban growth patterns are sensitive to. By not accounting for these factors, the frameworks may underestimate the increase in seismic risk. %ok
+
+%%%%%%%%%%%%%%%%%
+\section{Chapter-specific limitations and future work}
+
+\subsection{Chapter \ref{chap-tephra}: Other cost functions}
+ 
+    Research on selecting the most appropriate cost function shed light on specific cost functions that are often used in research and practice, and yet have many weaknesses. A popular example of such a cost function with many shortcomings is MAPE (described in detail in Appendix \ref{app-tephra}). It should be noted that the literature have proposed multiple alternatives to MAPE to address its shortcomings, which are not included in Chapter \ref{chap-tephra} but worth investigating for future work (e.g. symmetric MAPE, and scaled versions of mean absolute error and mean square error \citep{hyndman2006another}).
+ 
+\subsection{Chapter \ref{chap-tephra}: Approaches to weighting based on uncertainty}
+
+    I highlight that uncertainty in measured tephra data is rarely quantified, or even reported in field studies in literature. Currently, there is no standard approach to quantify such data related uncertainty \citep{engwell2015}. The quantification of differential uncertainty in Chapter \ref{chap-tephra}'s datasets is therefore simplified for the purpose of the study.
+    
+    In Chapter \ref{chap-tephra}, the difference in uncertainty between the two datasets in the test case was inferred based on the time delay in measurement since the time of the eruption and consultation with experts. It was assumed that measurements that are most reliable and contain the least uncertainty are those taken from a well-preserved deposit, i.e. those taken soon after an eruption had little deposit reworking. For future research, the uncertainty-based weights can account for other factors: (a) observational errors across different people measuring the same deposit, (b) systematic bias due to erosion or wind patterns, (c) preferential sampling due to ease of access, and (d) spatial clustering of data. There is future work in calculating weights based on spatial clustering, in which techniques in spatial statistics can be utilised: (1) Voronoi-Dirichlet tesselations \citep{bavaud1998models}, (2) Gaussian kernel/density approaches to weighting \citep{cronie2018non, scott1992multivariate, loader2012smoothing}, and entropy or dispersion-based weighting \citep{zhu2020effectiveness}.
+
+\subsection{Chapter \ref{chap-time}: Data limitations}
+
+    The time-dependent risk framework in Chapter \ref{chap-time} relies on critical reliable data that may not often be available for certain geographical contexts or intervention database. The study used a hypothetical building portfolio due to limitations in  data. Other limitations of the demonstration include the limited number of building typology, and the simplified hazard model that is represented as a single hazard curve for each district. 
+    
+    Thus, an important future work is to test the framework to an actual building portfolio. The main inputs required for such an application are the hazard model, building fragility database and transition probability matrices. Currently, developing the transition probability matrices pose the most challenge as they are rarely known in practice. In Chapter \ref{chap-time}, I showed that the matrices can be estimated through a maximum likelihood estimation approach based on the historical data of the intervention's progress. However, such information is not always available in some regions and applications, thus I believe there should be more work and research done to calculate transition probability matrices. Similarly, the framework relies on the quality of the fragility curves used in the study. The research project serves to promote the development of better data like fragility curves. 
+
+    Amidst data limitations for real-life applications, the next easier application is to use published virtual urban areas such as \citet{ellingwood2016centerville}'s Centerville Virtual Community or \citet{cremen2022simulation}'s Futureville. These are models of physical-social infrastructure systems developed to test long-term policies for resilience with defined building inventory, supporting public infrastructure systems, and socio-demographics.
+
+\subsection{Chapter \ref{chap-counterfactual}: Setting appropriate counterfactuals}
+
+    As in all risk analyses, the process of counterfactual analysis requires scrutiny and transparency in the assumptions, data and analysis conducted. Doing so aims to avoid both misuse of the counterfactual framework and misrepresentation of the benefits of disaster risk management. An example of misuse would be inflating the benefits of a risk intervention by cherry-picking ‘ideal’ counterfactuals - e.g. a hazard scenario too extreme and unrepresentative of the current knowledge of the hazard that the calculated lives saved would inflate. 
+
+\subsection{Chapter \ref{chap-counterfactual}: Analytics for other types of invisibilities in successful risk management}
+
+Chapter \ref{chap-counterfactual} does not cover case studies that address the following situations where successful risk interventions may go unnoticed (derived from \citet{lallemant_rabonza_gar_2022}, and seen in Appendix \ref{app-pls-2}):
+
+\begin{enumerate}
+    \item \textbf{Success made invisible by nature of the success.} A hazard becomes a disaster on account of the impacts it has on society. If mitigation efforts are so successful that there are no perceivable impacts, both the potential disaster and the successful mitigation are made invisible.
+
+    \item \textbf{Success made invisible by the randomness of the specific outcome.} Hazards are stochastic processes, hence any single occurrence is only one of several possibilities that could have occurred. Recognising that the parameters of the event that actually occurred could easily have been different, successes can be made invisible if the hazard randomly does not strain mitigation measures, e.g. a near-miss.
+\end{enumerate}
+
+A great example of \#1 -- an intervention so successful that there are no perceivable impacts -- is an effective evacuation effort before a potentially destructive hazard event hits a community. Future research that aim to analyse the benefits of an evacuation program can be done by referring to the schematic of the proposed framework for highlighting successes in Figure \ref{fig:conceptual_diagram}. Since an evacuation effort influences the exposure component, the reduction in exposure is considered rather than the reduced vulnerability shown in Figure \ref{fig:conceptual_diagram}. Similar with the case studies presented in Chapter \ref{chap-counterfactual}, a hazard model and representation of vulnerability is required.
+
+Analysis that address \#2 (success made invisible by the randomness of the specific outcome) involve the use of a probabilistic hazard model. This model is produced through the simulation of a large number of realisations of hazard events and corresponding impact to the exposure. A probabilistic seismic hazard model was utilised in Chapter \ref{chap-counterfactual} to study the future life-saving impact of the schools retrofitting program, but the probabilistic hazard model can also be used to highlight that the 2015 Nepal earthquake is only one of several possible events that could have occurred.
+
+    
+
+%remodelling the exposure
+%% use of time-dependent framework. psha
+
+    % Methods featured are within the time, resources and skillset
+    
+    % Promoting the improvement of data to inform decision-making
+    % Better fragility data
+    % Applicability to other hazard and environmental problems
+
+
+
+%%%%%%%%%%%%%%%%%
+\section{Final remarks}
+
+This final section conveys my broader reflections on the applications and contributions of the dissertation. I also include a description of the \textit{Averted Disaster Award}, which is a recently-launched global recognition that was developed directly from the ideas presented in Chapter \ref{chap-counterfactual} and another paper I lead \citep{lallemant_rabonza_gar_2022}.
+
+%paradigm shifts in my thinking that aren't necessarily included in the manuscript
+
+\subsection{Towards integration across disciplines}
+
+The research I have conducted in NTU was motivated by the many personal interests and skills I wanted to explore and learn in the field of hazards and disaster research. The outcome is a convergence of the earthquake modelling skills from my civil engineering background, my experience in probabilistic hazards modelling, my recent introduction to volcano hazards in the Asian School of the Environment, my new-found interest in spatial statistics, and my passion to understand social perceptions in risk. My dissertation presented concepts from multiple disciplines spanning from physics-based methods to insights rooted from social psychology. 
+
+Indeed, the field of hazards and disaster research has an established history of inclusive forms of multidisciplinary research \citep{kendra2014engineering} to produce new insights for risk communication, recovery, and decision-making \citep{mileti1999disasters, olson2020disaster,birkland2006lessons}. It is my belief that increasing our knowledge about natural processes of hazards alone is not sufficient to lead our communities towards a more safe and resilient path. To illustrate, a specific technical intervention, which may seem to be brilliant solution for one issue has the potential to create a completely new challenge \citep{peek2020framework}. For instance, in Portland Oregon, efforts to save lives by the seismic retrofit of unreinforced masonry homes and churches threatened to displace African American communities with a long history of dispossession \citep{njus_2019}. Therefore, risk analytics should be complemented with specific actions that aim to reduce inequalities, injustices, historical and socio-technical issues that turn natural hazards into disasters. These are important factors in which the dissertation's case studies have not accounted for, but instead proposed for future work. 
+
+My research advocates and hopefully contributes tools for integrating multiple techniques and perspectives in analytics to improve our understanding of hazards and to promote resilience. It is my conviction that there is great value in incorporating advancements in hazard quantification (e.g. Chapter \ref{chap-tephra}), modelling time-dependent processes in risk (e.g. Chapter \ref{chap-time}), and incentivising good efforts in risk reduction (e.g. Chapter \ref{chap-counterfactual}) when they also account for social, political, and economic processes that put people and assets in harm’s way.
+
+% The importance of accounting for these actions are highlighted in the literature about \textit{convergence} of multiple disciplines in the disaster field (e.g. \citet{peek2020framework}). 
+% One relevant example of the importance of multi-disciplinary approaches in decision making is how a specific technical intervention, which may seem to be brilliant solution for one issue can create a completely new challenge \citep{peek2020framework}. To illustrate, efforts to save lives by the seismic retrofit of unreinforced masonry homes and churches in Portland, Oregon threatened to displace African American communities with a long history of dispossession \citep{njus_2019}.
+
+
+
+% One line of thinking is that the risk creation process is not just place or hazard specific, but that there are root causes that must be considered. 
+% Social and economic inequality can leave vulnerable populations with fewer resources to prepare for, respond to, and recover from disasters, and hazards-related damages and biased disaster policies can further widen wealth inequalities.
+
+% As \citet{burton2018world} suggests, the "knowing more-losing more" paradox is typical, in which despite the increasing knowledge about disasters, disaster losses still continue to increase because of several factors: population growth in risky areas, climate change, inadequate knowledge mobilization, and unregulated risk creation in capitalist markets.)
+
+% \citet{burton2018world} suggests that the many factors contribute to the paradox of increasing disaster losses despite the increasing knowledge about disasters (also known as "knowing more-losing more"): e.g. factors such as population growth in risky areas, climate change, inadequate knowledge mobilization, and unregulated risk creation in capitalist markets. 
+
+\subsection{Towards decision-making on the basis of probabilistic risk}
+
+An important concept that emerges from this study is that the value of a risk reduction intervention should not be judged on the basis of specific outcomes, but also on the basis of a broader exploration of potential outcomes. The same \textit{good decision} may seem like overkill against a specific outcome, or may seem completely insufficient judged against another. Especially in a field focused on long-term resilience and often rare (therefore volatile) events, \textit{realised outcomes} bias our perceptions and judgements. 
+
+This is also relevant to the monitoring of risk reduction targets, including those of the Sendai Framework for the years 2015-2030 \citep{united2015sendai}. Mortality on any given year, or specific place, may not reflect adequate or inadequate disaster planning, but rather chance outcomes. To illustrate in the case of earthquakes, even countries with high seismic hazard can experience no destructive earthquakes in the span of 15 years. An example of this is Haiti, where from 1900 to 2009, earthquakes killed less than 10 people. However,in 2010, a strong earthquake killed more than 200,000 people. The mean earthquake fatality rate in Haiti between 1900 and 2000 was less than 0.1 fatalities per year. After 2010, this mean fatality rate became more than 1,800 fatalities per year. Therefore, using observed disaster loss data for a short snapshot of time could result to complacency in those countries spared by disasters. In other words, some countries will think they are doing so well because they have fewer casualties for decades, whereas some countries will think they did really badly. But in fact, neither of those countries will actually know what the true risk situation is by using just a few decades of data.
+
+Therefore, to be able to achieve targets in risk reduction, decisions should be made on the basis of probabilistic risk. Encouraging long-term resilience, which may not `pay-off' for decades (e.g. for climate-adaptation), will therefore require a shift in focus from realised outcome to unrealised risk reduction.
+
+\subsection{Towards systematic celebration of averted disasters}
+
+Multiple times in my PhD, I had the opportunity to ask the following set of questions in front of expert audience and plenaries in the field of disaster risk (i.e. academics, industry experts, politicians, military personnel, etc.):
+
+\begin{center} \begin{blockquote}
+Can I ask a show of hands -- who has heard about \textbf{Hurricane Katrina}?
+\end{blockquote} \end{center}
+Typically, almost all of them raises their hands.
+\begin{center} \begin{blockquote}
+How about \textbf{Typhoon Haiyan?}
+\end{blockquote} \end{center}
+Again, most of them raises their hands.
+\begin{center} \begin{blockquote}
+Now, what about \textbf{Cyclone Fani?}
+\end{blockquote} \end{center}
+Every single time, almost no one raises their hands for Cyclone Fani.
+
+Fani, was the largest cyclone to make landfall in India in the past two decades, but the reason no one knows about it is that there was a successful evacuation program that resulted to nearly zero fatalities in this event. The impact was so little compared to the 10,000 fatalities from the 1999 Odisha Cyclone - a cyclone that hit the same area and has the same intensity as Fani. Because the evacuation was so successful, it did not really make much news. This is one of the situations that my work has identified where successful disaster risk reduction interventions go unnoticed or invisible, wherein the perception is that nothing happened, and there’s a need to highlight that nothing happening is extraordinary. 
+
+In Chapter \ref{chap-counterfactual}, I present other situations where successful risk reduction may go un-noticed such as amid a catastrophe. The 2015 earthquake in Nepal caused widespread destruction and numerous tragic fatalities, and yet amid this disaster there were important successes that deserve highlighting. Because of the earthquake retrofit program implemented by the government of Nepal, none of the retrofitted schools collapsed during the 2015 earthquake. In this situation, people focus only on the catastrophe, but even within the catastrophe, there are important interventions that we should celebrate. Chapter \ref{chap-counterfactual} demonstrated the use of probabilistic counterfactual analysis to analyse these often unnoticed benefits of risk reduction measures.
+
+This is what underpins the \textit{Averted Disaster Award}, a premier global recognition that was launched since 2021 from the support of the World Bank Group, Understanding Risk Community, and the Global Facility for Disaster Reduction and Recovery (GFDRR). The award is based on the concepts presented in Chapter \ref{chap-counterfactual} and the paper I lead for the United Nations Global Assessment Report 2022 \citep{lallemant_rabonza_gar_2022}. The idea of the award is to identify, highlight, and share the hard work that people are doing around the world to reduce the impact of climate and disaster risk. The applicants were also guided in the use of the counterfactual analysis. The award has been an impactful (non-academic) achievement that was produced from the scientific ideas from this dissertation.
+
+Submissions for the Averted Disaster Award have covered amazing programs such as using nature-based solutions for flood risk reduction, early warning systems, socially-inclusive approaches to disaster risk management, climate policy, coastal protections against rising seas and storms, risk financing programs, strengthening of buildings and homes, and technology for better monitoring of hazards and risk. The award aims to highlight these efforts through the Averted Disaster Award so that they can be shared, replicated, adapted, and scaled up in the places that need them. For more information and complete list of partner organisations, see our official website: 
+\begin{itemize}
+\setlength\itemsep{-0.45em}
+    \item The Averted Disaster Award
+    \item https://averteddisasteraward.org
+    \item Supported by the Understanding Risk Community, Global Facility for Disaster Reduction and Recovery (GFDRR), The World Bank Group, Earth Observatory of Singapore, Anticipation Hub
+\end{itemize}
+
+
+
+%%% Averted disaster award
+%% link 
+
+
+% Scientific understanding of “natural” processes—especially in this context extreme events—has advanced considerably in the past few decades. The magnitude, frequency, location, duration, speed of onset, and other characteristics of many hazards can now be predicted and forecasted with more accuracy and further in advance than before.
+
+% These advances allow for more warning time, better emergency preparedness, improved evacuations and other enhanced safety measures. Similarly, materials science and building design have progressed to result in better building codes and standards and more resilient structures. More precise geographical information about hazards helps avoid increased exposure to risk. Communication is faster and more reliable, and access to transportation has improved.
+
+% This is where a disaster risk creation framework becomes so important. It is crucial that with each new disaster event, we ask questions not only about the natural processes, but also about the social, political, and economic processes that put people and property in harm’s way in the first place. This is what a disaster risk creation discussion is all about.
+
+
+    % Yet knowing more has not helped to contain disaster-related losses such as property damage, direct and indirect economic costs, population displacement, and other socially and financially harmful disruptions. Burton (2018) offers various explanations for this “knowing more-losing more” paradox, including the settlement and growth of populations in risky areas, the expansion of the global economy, the onset of climate change, inadequate knowledge mobilization frameworks, and, especially, unchecked disaster risk creation in capitalist markets. In addition, social and economic inequality have left more people in harm’s way with fewer resources available to prepare for, respond to, and recover from disaster (Fothergill and Peek, 2004; Verchick, 2010). Hazards-related damages and biased disaster policies may further widen wealth inequalities – especially along lines of race, education, and homeownership – rendering already marginalized population groups more vulnerable to future crises (Howell and Elliott, 2018).
+
+%% Evaluating risk reduction on the basis of probabilistic risk
+
+%% Averted disaster award
+
+%%%% -- better here
+% An important concept that emerges from this study is that the value of a risk reduction intervention should not be judged on the basis of specific outcomes, but also on the basis of a broader exploration of potential outcomes. The same \textit{good decision} may seem like overkill against a specific outcome, or may seem completely insufficient judged against another. Especially in a field focused on long-term resilience and often rare (therefore volatile) events, \textit{realised outcomes} bias our perceptions and judgements. This is also relevant to the monitoring of risk reduction targets, including those of the Sendai Framework \citep{united2015sendai}. Mortality on any given year, or specific place, may not reflect adequate or inadequate disaster planning, but rather chance outcomes. Encouraging long-term resilience, which may not `pay-off' for decades (e.g. for climate-adaptation), will therefore require a shift in focus from realised outcome to unrealised risk reduction.
+
+% convergence has been defined most generally as “an approach to problem solving that cuts across disciplinary boundaries. It integrates knowledge, tools, and ways of thinking from life and health sciences, physical, mathematical, and computational sciences, engineering disciplines, and beyond to form a comprehensive synthetic framework for tackling scientific and societal challenges that exist at the interfaces of multiple fields” (National Research Council [NRC], 2014, p. 1).
+
+% Final remarks:
+% Future risk, though uncertain can be quantified
+% How the Averted Disaster award materialised from the research
+
+% Responsibility:
+% What this means is that we developed these as modeling frameworks, so the
+% general approach could be  exible to diverse data inputs, but the calibrated model and input datasets should be speci c to each location. In designing these frameworks, we carefully made decisions to balance applicability (i.e. ensuring that the developed models are usable) with generalizability (i.e. developing general insights that can inform disaster reduction globally).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The job of the conclusion is to:
+ 
+% Fully and clearly articulate the answer to your research questions
+% Discuss how the research is related to your aims and objectives
+% Explain the significance of the work
+% Outline its shortcomings
+% Suggest avenues for future research
+% It is not the place to introduce new ideas and concepts, or to present new findings.
+% Your job is to reflect back on your original aims and intentions and discuss them in terms of your findings and new expertise.
+% Three things to do in a conclusion:
+ 
+% Own your research by speaking with authority! You’ve earned the right to do that by the time you reach your conclusion 
+% See the thesis and not the detail. Drive home the contribution that the thesis has made. Whatever it is, you need to shout about it. Loudly. Like an expert.
+% Each chapter is a piece of the puzzle and only when they are all slotted together do you have an entire thesis. That means that a great conclusion is one that shows that the thesis is bigger than the sum of its individual chapters. 
+% By the time the reader has finished reading the conclusion, they should be able to answer the following questions:
+% Have you briefly recapped the research questions and objectives?
+% Have you provided a brief recount of the answer to those questions?
+% Have you clearly discussed the significance and implications of those findings?
+% Have you discussed the contribution that the study has made?
+% Do the claims you are making align with the content of the results and discussion chapters?
+% Struggling for motivation to write your conclusion? Remember this: it’s the last thing your examiner will read before they write their report and decide on the quality of your entire PhD. That means: last impressions count!
+% You can find a more detailed guide on writing a standout conclusion here. 

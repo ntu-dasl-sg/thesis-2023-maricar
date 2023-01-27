@@ -1,0 +1,156 @@
+\documentclass{class/kamoonaRmit}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{subcaption} % For complex figures
+\usepackage[titletoc, header, page]{appendix}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+%\usepackage{pdfpages}   %To attach PDF in the appendices
+
+\usepackage{array}      % For fancy tables
+\usepackage{booktabs}   % For formal tables
+\usepackage{longtable}  % For long tables
+\usepackage{lipsum}
+\usepackage{siunitx}    % International System of Units
+
+% so that urls in bibliohraphy break into lines
+\usepackage[hyphen]{url} 
+\def\UrlBreaks{\do\/\do-}
+\usepackage{breakurl}
+
+\usepackage{datetime}   % To manage date format
+\usepackage[pdfusetitle]{hyperref}
+
+\usepackage{setspace}   % To configure dobule/single space
+\usepackage[authoryear, round]{natbib}
+
+\usepackage{multirow}
+
+\usepackage{pdflscape} 
+% https://tex.stackexchange.com/questions/19017/how-to-place-a-table-on-a-new-page-with-landscape-orientation-without-clearing-t
+\usepackage{afterpage}
+\usepackage{capt-of}% or use the larger `caption` package
+
+\usepackage{pdfpages} %include pdf files in appendix
+\usepackage{stackengine} %for overlapping figures
+\usepackage{epigraph} % for highlights
+
+% for block quote colored:
+\usepackage[most]{tcolorbox}
+\definecolor{block-gray}{gray}{0.85}
+\newtcolorbox{blockquote}{colback=block-gray,grow to right by=-1mm,grow to left by=-1mm,boxrule=0pt,boxsep=0pt,breakable}
+
+% \usepackage[none]{hyphenat}
+%%% Handlie hypenation for long words
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+
+%\usepackage{class/gantt}  % Uncomment if gantt chart is needed 
+
+%\geometry{showframe}
+% \author{MARICAR L. RABONZA 
+% %    \\ 	{\normalsize \href{ammmar:@rmit.edu.au}{\texttt{fmarti@rmit.edu.au}}}
+% %	\and
+% %	Camilla Lekebjer \\
+% %    {\normalsize \href{mailto:Camilla.Lekebjer@cs.lth.se}{\texttt{Camilla.Lekebjer@cs.lth.se}}}
+% }
+\title{ANALYTICS AND SUPPORT OF REGIONAL SCALE RISK REDUCTION}
+%\subtitle{The unofficial RMIT University of Technology Thesis template}
+\subtitle{MARICAR L. RABONZA}
+
+%% AFILIATIONS
+%% You can choose between one or two affiliations, if you don't fill in
+%% any of those commands,.
+%% If you only have one affiliation, use the following commands:
+
+\affiliation{Asian School of the Environment \\
+College of Science}
+\affilogo{class/logos/logo3.png}
+%% If you have two affiliations, use the following fields:
+%two affiliations
+%\affiliations{Royal Melbourne Institute of Technology}{MIT}
+%\affilogos{class/logos/RMIT_Logo}{class/logos/RMIT_Logo}
+
+%% Document, is this your Doctoral Thesis, or your Confirmation of Candidature?
+\TypeOfDocument{A thesis submitted to the Nanyang Technological University in partial fulfilment of the requirement for the degree of
+Doctor of Philosophy}
+%\TypeOfDocument{Confirmation of Candidature}
+
+%% Place where you submit and/or present the thesis
+%\location{Barcelona, Catalunya}
+%\location{Lund, Sweden}
+%\location{Melbourne, Australia}
+
+%% Date without the day of the month
+%\newdateformat{mydate}{\monthname[\THEMONTH] \THEYEAR}
+%\date{\mydate\today}
+\date{2023}
+
+%%% Modifying contributions table
+
+
+\begin{document}
+
+    %% This command generates all the pages before Chapter 1
+    %% Cover, Abstract, Acknowledgements, Declaration, Contents
+    \makefrontmatter
+    
+	%% If list of figures and/or list of tables is needed, UNCOMENT the following lines
+	\listoffigures
+	\listoftables
+
+    %% Contents are still in roman numbers, don't touch this
+    \cleardoublepage
+
+    %% Arabic numbers from Chapter 1 to the end.
+    \pagenumbering{arabic}
+
+    %% Double or One-half space. 
+    %%
+    %% My supervisors want read the thesis in double space to make comments.
+    %% One-and-a-half line spacing should be used for the body of the work; 
+    %% single spacing may be used for indented quotations and in appendices, reference lists, and footnotes
+    %% 
+    %%
+    %% `make' to compile the document in one half spacing
+    %% `make draft' to compile it in double space
+    \ifdefined\isdraft
+        \doublespacing
+    \else
+        \onehalfspacing
+    \fi
+
+    %% Chapters. Include here all your chapters
+     \include{Chapters/1_Introduction.tex}
+     \include{Chapters/2_Tephra.tex}
+     \include{Chapters/3_Time-dependence.tex}
+     \include{Chapters/4_Learn_from_Success.tex}
+     \include{Chapters/5_Conclusion.tex}
+
+    %% Bibliography using bibtex
+    \makebibliography{refs.bib}
+
+    %% Appendices. If you don't have any appendices, comment the appendices section
+    \begin{appendices}
+
+        %% Include here all your appendices
+        \include{Appendices/appendix_tephra}
+        \include{Appendices/appendix_timedep.tex}
+        \include{Appendices/appendix_pls.tex}
+
+
+        % If you want to add a pdf already generated in the appendix, use the following command
+        %\includepdf[pages={1}]{papers/popsci.pdf}
+
+    \end{appendices}
+
+\end{document}

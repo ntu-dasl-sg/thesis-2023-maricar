@@ -10,6 +10,9 @@ I'll make an Overleaf template version of this soon.
 ## Versions available:
 
 * Version 1 - Submitted to NTU at January 17, 2023
+* Overleaf template version : "PhD Thesis_NTU Singapore_Asian School of the Environment (Unofficial).zip"
+The project is also viewable at https://www.overleaf.com/read/zvjggvpgdznm
+Feel free to duplicate for your purpose.
 
 
 -----
